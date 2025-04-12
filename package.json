@@ -1,0 +1,26 @@
+{
+  "name": "hass-cli",
+  "version": "1.0.0",
+  "description": "CLI tool to interact with the Home Assistant REST API",
+  "main": "bin/hass-cli.js",
+  "type": "module",
+  "bin": {
+    "hass-cli": "./bin/hass-cli.js"
+  },
+  "scripts": {
+    "start": "node bin/hass-cli.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "home-assistant",
+    "cli",
+    "api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "commander": "^13.1.0",
+    "dotenv": "^16.5.0"
+  }
+}
