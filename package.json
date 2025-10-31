@@ -1,6 +1,6 @@
 {
   "name": "hass-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI tool to interact with the Home Assistant REST API",
   "main": "bin/hass-cli.js",
   "type": "module",
