@@ -61,6 +61,26 @@ const outputJson = (data, metadata = {}) => {
   return response;
 };
 
+const TRANSIENT_NO_RESPONSE_CODES = new Set(['ECONNRESET', 'ECONNABORTED', 'ETIMEDOUT']);
+
+const shouldAssumeNoResponseSuccess = (error) => {
+  if (!error || error.response || !error.request) {
+    return false;
+  }
+
+  if (error.code && TRANSIENT_NO_RESPONSE_CODES.has(error.code)) {
+    return true;
+  }
+
+  const message = (error.message || '').toLowerCase();
+
+  if (message.includes('socket hang up')) {
+    return true;
+  }
+
+  return false;
+};
+
 // API Endpoints Implementation
 
 // GET /api/
@@ -118,6 +138,13 @@ async function callService(domain, service, data = {}) {
     const response = await api.post(`/services/${domain}/${service}`, data);
     return outputJson(response.data, { service: `${domain}.${service}`, serviceData: data });
   } catch (error) {
+    if (shouldAssumeNoResponseSuccess(error)) {
+      return outputJson(null, {
+        service: `${domain}.${service}`,
+        serviceData: data,
+        note: 'No response received from Home Assistant; assuming success'
+      });
+    }
     return handleApiError(error);
   }
 }

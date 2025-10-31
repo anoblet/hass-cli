@@ -59,6 +59,11 @@ Or in case of errors:
 }
 ```
 
+Some Home Assistant services (for example `homeassistant.reload_all`) accept the request but close the
+connection without returning a payload. When that happens the CLI will still respond with
+`success: true`, echo the service metadata, and include a note that no response was received so the
+result is assumed to be successful.
+
 ## Available Commands
 
 ### API Check and Information
